@@ -43,4 +43,4 @@ obj_pose = np.concatenate((rot_mat, obj_location.reshape(3,1)), axis=-1)
 obj_pose = np.concatenate((obj_pose, hom_coords), axis=0)
 
 renderer.import_mesh(opt.mesh_fpath, scale=1., object_world_matrix=obj_pose)
-renderer.render(instance_dir, blender_poses)
+renderer.render(instance_dir, blender_poses, write_cam_params=True)
