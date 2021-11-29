@@ -4,11 +4,20 @@ import bpy
 
 
 class BlenderInterface():
-    def __init__(self, resolution=128, background_color=(1,1,1)):
+    def __init__(self, resolution=128, background_color=(1,1,1), device='cpu'):
         self.resolution = resolution
-
+        assert device in ['cpu', 'cuda'], "Device should be one of 'cpu' or 'cuda'."
         # Delete the default cube (default selected)
         bpy.ops.object.delete()
+        if device == 'cuda':
+            prefs = bpy.context.user_preferences.addons['cycles'].preferences
+            for i, dev in enumerate(prefs.devices):
+                if "NVIDIA" in dev.name:
+                    print("FOUND GPU ", dev.name, " enabling now")
+                    prefs.compute_device_type = 'CUDA'
+                    prefs.devices[i].use = True
+                    bpy.context.scene.cycles.device = 'GPU'
+            bpy.ops.wm.save_userpref()
 
         # Deselect all. All new object added to the scene will automatically selected.
         self.blender_renderer = bpy.context.scene.render
