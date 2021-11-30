@@ -12,6 +12,7 @@ p.add_argument('--mesh_fpath', type=str, required=True, help='The path the outpu
 p.add_argument('--output_dir', type=str, required=True, help='The path the output will be dumped to.')
 p.add_argument('--num_observations', type=int, required=True, help='The path the output will be dumped to.')
 p.add_argument('--sphere_radius', type=float, required=True, help='The path the output will be dumped to.')
+p.add_argument('--device', type=str, default='cpu', help='Device to be used for rendering. Options are cpu or cuda')
 p.add_argument('--mode', type=str, required=True, help='Options: train and test')
 
 argv = sys.argv
@@ -22,7 +23,7 @@ opt = p.parse_args(argv)
 instance_name = opt.mesh_fpath.split('/')[-3]
 instance_dir = os.path.join(opt.output_dir, instance_name)
 
-renderer = blender_interface.BlenderInterface(resolution=128)
+renderer = blender_interface.BlenderInterface(resolution=128, device=opt.device)
 
 if opt.mode == 'train':
     cam_locations = util.sample_spherical(opt.num_observations, opt.sphere_radius)
