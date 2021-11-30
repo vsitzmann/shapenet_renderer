@@ -23,7 +23,7 @@ opt = p.parse_args(argv)
 instance_name = opt.mesh_fpath.split('/')[-3]
 instance_dir = os.path.join(opt.output_dir, instance_name)
 
-renderer = blender_interface.BlenderInterface(resolution=256, device=opt.device)
+renderer = blender_interface.BlenderInterface(resolution=128, device=opt.device)
 
 if opt.mode == 'train':
     cam_locations = util.sample_spherical(opt.num_observations, opt.sphere_radius)
